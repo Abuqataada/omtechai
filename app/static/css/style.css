@@ -1,0 +1,132 @@
+/* === OmTechAI Brand Theme === */
+:root {
+  --bg-dark: #0a0f1c;
+  --bg-light: #10182b;
+  --accent-green: #00ff9d;
+  --accent-blue: #00aaff;
+  --text-light: #f0f4ff;
+  --text-muted: #9ea9c5;
+  --font-main: "Poppins", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background: var(--bg-dark);
+  color: var(--text-light);
+  overflow-x: hidden;
+}
+
+/* === Header === */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-light);
+  padding: 15px 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  height: 50px;
+  transition: transform 0.3s ease;
+}
+.logo:hover {
+  transform: scale(1.05);
+}
+
+nav a {
+  color: var(--text-light);
+  text-decoration: none;
+  margin: 0 18px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+nav a:hover {
+  color: var(--accent-green);
+}
+
+/* === Hero Section === */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+  animation: fadeIn 1.5s ease;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: var(--accent-green);
+  margin-bottom: 15px;
+}
+.hero p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+.cta-btn {
+  background: var(--accent-green);
+  color: var(--bg-dark);
+  border: none;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  margin-top: 25px;
+  display: inline-block;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.cta-btn:hover {
+  background: var(--accent-blue);
+  transform: scale(1.05);
+}
+
+/* === Services === */
+.services {
+  list-style: none;
+  padding: 0;
+  margin: 40px auto;
+  max-width: 600px;
+}
+.services li {
+  background: var(--bg-light);
+  margin: 12px 0;
+  padding: 15px 20px;
+  border-left: 4px solid var(--accent-green);
+  transition: transform 0.3s ease;
+}
+.services li:hover {
+  transform: translateX(5px);
+}
+
+/* === Contact Page === */
+.contact-info {
+  max-width: 600px;
+  margin: 60px auto;
+  text-align: center;
+}
+.contact-info a {
+  color: var(--accent-green);
+  text-decoration: none;
+}
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* === Footer === */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: var(--bg-light);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
