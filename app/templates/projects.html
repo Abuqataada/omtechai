@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero" style="padding: 100px 20px;">
+  <div class="hero-content">
+    <h1 class="fade-in">Projects & Innovations</h1>
+    <p class="fade-in delay-1">OmTechAI Limited is pioneering technology across AI systems, Education, Software Development, IoT, and Automation.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">AI Systems & Intelligent Tools</h2>
+    <div class="services-grid">
+      <div class="service-card highlight">
+        <div class="project-image">
+          <img src="{{ url_for('static', filename='images/ai_platform.jpg') }}" alt="AI Integration">
+        </div>
+        <h3>AI Integration & Analysis Engine</h3>
+        <p>Leveraging Hugging Face and DeepSeek-AI models to deliver advanced natural language understanding, educational insights, and custom AI-driven automation.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">AI/ML</span>
+          <span class="tech-tag">NLP</span>
+          <span class="tech-tag">Automation</span>
+        </div>
+      </div>
+      
+      <div class="service-card highlight">
+        <div class="project-image">
+          <img src="{{ url_for('static', filename='images/trading_ai.jpg') }}" alt="Trading EA">
+        </div>
+        <h3>Automated Trading System (MT5)</h3>
+        <p>Intelligent, data-driven trading bot optimized for volatility indices with real-time trade analytics and adaptive risk management.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Algorithmic Trading</span>
+          <span class="tech-tag">MT5</span>
+          <span class="tech-tag">Data Analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background: var(--bg-light);">
+  <div class="container">
+    <h2 class="section-title">Educational Technology & Platforms</h2>
+    <div class="services-grid">
+      <div class="service-card highlight">
+        <div class="project-image">
+          <img src="{{ url_for('static', filename='images/education_tools.jpg') }}" alt="OES App">
+        </div>
+        <h3>OES - Online Examination System</h3>
+        <p>Offline-enabled platform for teachers and students featuring auto-save, review-before-submit, and anti-cheating detection during exams.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">EdTech</span>
+          <span class="tech-tag">Offline First</span>
+          <span class="tech-tag">Security</span>
+        </div>
+      </div>
+      
+      <div class="service-card highlight">
+        <div class="project-image">
+          <img src="{{ url_for('static', filename='images/education_tools.jpg') }}" alt="Exam Platform">
+        </div>
+        <h3>Institutional Examination Platform</h3>
+        <p>LAN-based exam management system allowing teachers to assign timed, randomized exams with real-time monitoring and analytics.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">LAN Systems</span>
+          <span class="tech-tag">Analytics</span>
+          <span class="tech-tag">Education</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">IoT & Automation Projects</h2>
+    <div class="services-grid">
+      <div class="service-card highlight">
+        <div class="project-image">
+          <img src="{{ url_for('static', filename='images/iot_systems.jpg') }}" alt="Health Monitoring System">
+        </div>
+        <h3>Health Monitoring System</h3>
+        <p>Arduino-based IoT device using an oximeter and LCD to monitor patient vitals for hospitals and health startups.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">IoT</span>
+          <span class="tech-tag">Arduino</span>
+          <span class="tech-tag">Healthcare</span>
+        </div>
+      </div>
+      
+      <div class="service-card highlight">
+        <div class="project-image">
+          <img src="{{ url_for('static', filename='images/iot_systems.jpg') }}" alt="Smart Systems">
+        </div>
+        <h3>Smart City & Energy Projects</h3>
+        <p>PictoBlox + Arduino projects designed for clean energy, climate action, and sustainable infrastructure.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Smart Cities</span>
+          <span class="tech-tag">Clean Energy</span>
+          <span class="tech-tag">Sustainability</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background: var(--bg-light); text-align: center;">
+  <div class="container">
+    <h2 class="section-title">Innovate with OmTechAI</h2>
+    <p style="max-width: 600px; margin: 0 auto 30px; font-size: 1.2rem;">
+      Partner with us to bring your next AI-driven or institutional software idea to life.
+    </p>
+    <a href="/contact" class="cta-btn">Contact Us</a>
+  </div>
+</section>
+{% endblock %}

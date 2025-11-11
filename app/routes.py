@@ -13,6 +13,10 @@ def services():
 def tools():
     return render_template('tools.html', title="Our Tools")
 
+@app.route('/projects')
+def projects():
+    return render_template('projects.html', title="Projects & Innovations")
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html', title="Contact Us")
