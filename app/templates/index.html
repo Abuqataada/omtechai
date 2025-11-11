@@ -1,8 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="hero">
-  <h1>Welcome to OmTechAI Limited</h1>
-  <p>Innovating the Future with Smart Software & AI Solutions.</p>
-  <a href="/services" class="cta-btn">Explore Our Services</a>
+  <div class="hero-content">
+    <h1 class="fade-in">Welcome to OmTechAI Limited</h1>
+    <p class="fade-in delay-1">Innovating the Future with Smart Software & AI Solutions.</p>
+    <a href="/services" class="cta-btn fade-in delay-2">Explore Our Services</a>
+  </div>
+</section>
+
+<section class="section" style="background: var(--bg-light);">
+  <div class="container">
+    <h2 class="section-title">Why Choose OmTechAI?</h2>
+    <div class="services-grid">
+      <div class="service-card highlight">
+        <h3>Expert Development</h3>
+        <p>Our team of experienced developers creates robust, scalable solutions tailored to your specific business needs.</p>
+      </div>
+      <div class="service-card highlight">
+        <h3>Cutting-Edge Technology</h3>
+        <p>We leverage the latest technologies including AI, machine learning, and cloud computing to deliver innovative solutions.</p>
+      </div>
+      <div class="service-card highlight">
+        <h3>Dedicated Support</h3>
+        <p>We provide ongoing support and maintenance to ensure your systems run smoothly and efficiently.</p>
+      </div>
+    </div>
+  </div>
 </section>
 {% endblock %}

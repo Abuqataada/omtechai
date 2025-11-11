@@ -9,6 +9,10 @@ def home():
 def services():
     return render_template('services.html', title="Our Services")
 
+@app.route('/tools')
+def tools():
+    return render_template('tools.html', title="Our Tools")
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html', title="Contact Us")
