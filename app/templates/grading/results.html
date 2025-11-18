@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="fas fa-chart-line text-primary"></i> 
+                Grading Results
+            </h2>
+            <div>
+                <a href="/upload-answers" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Grade Next Student
+                </a>
+                <a href="/batch-summary" class="btn btn-outline-primary">
+                    <i class="fas fa-chart-bar"></i> Batch Summary
+                </a>
+            </div>
+        </div>
+
+        <!-- Overall Score Card -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-trophy"></i> Overall Performance
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="border rounded p-3 bg-light">
+                            <h3 class="text-primary">{{ results.total_score }}/{{ results.max_score }}</h3>
+                            <p class="mb-0">Total Score</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="border rounded p-3 bg-light">
+                            <h3 class="text-success">{{ "%.1f"|format(results.percentage) }}%</h3>
+                            <p class="mb-0">Percentage</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="border rounded p-3 bg-light">
+                            <h3 class="text-info">{{ results.questions|length }}</h3>
+                            <p class="mb-0">Questions</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="border rounded p-3 bg-light">
+                            <h3 class="text-warning">{{ results.student_id }}</h3>
+                            <p class="mb-0">Student ID</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h5><i class="fas fa-comment-dots"></i> Overall Feedback:</h5>
+                    <div class="alert alert-info">
+                        {{ results.feedback_summary }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Question Results -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-list-ol"></i> Question-wise Results
+                </h4>
+            </div>
+            <div class="card-body">
+                {% for question in results.questions %}
+                <div class="question-result mb-4 p-3 border rounded {% if question.score_obtained >= question.max_marks * 0.8 %}border-success{% elif question.score_obtained >= question.max_marks * 0.5 %}border-warning{% else %}border-danger{% endif %}">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h5 class="mb-0">
+                            Question {{ question.question_number }} 
+                            <span class="badge {% if question.question_type == 'mcq' %}bg-info{% else %}bg-secondary{% endif %}">
+                                {{ question.question_type|upper }}
+                            </span>
+                        </h5>
+                        <div class="text-end">
+                            <span class="h5 mb-0 {% if question.score_obtained >= question.max_marks * 0.8 %}text-success{% elif question.score_obtained >= question.max_marks * 0.5 %}text-warning{% else %}text-danger{% endif %}">
+                                {{ question.score_obtained }}/{{ question.max_marks }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <strong>Question:</strong>
+                        <p class="mb-2">{{ question.question_text }}</p>
+                    </div>
+                    
+                    {% if question.student_answer_preview %}
+                    <div class="mb-3">
+                        <strong>Student's Answer:</strong>
+                        <div class="bg-light p-2 rounded">
+                            {{ question.student_answer_preview }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <strong>Feedback:</strong>
+                        <div class="alert {% if question.score_obtained >= question.max_marks * 0.8 %}alert-success{% elif question.score_obtained >= question.max_marks * 0.5 %}alert-warning{% else %}alert-danger{% endif %}">
+                            {{ question.feedback }}
+                        </div>
+                    </div>
+                    
+                    {% if question.key_points_missed %}
+                    <div class="mb-3">
+                        <strong><i class="fas fa-exclamation-circle text-warning"></i> Key Points Missed:</strong>
+                        <ul class="mb-0">
+                            {% for point in question.key_points_missed %}
+                            <li>{{ point }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    {% if question.suggestions %}
+                    <div class="mb-3">
+                        <strong><i class="fas fa-lightbulb text-info"></i> Suggestions for Improvement:</strong>
+                        <ul class="mb-0">
+                            {% for suggestion in question.suggestions %}
+                            <li>{{ suggestion }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="progress mb-2" style="height: 10px;">
+                        <div class="progress-bar 
+                            {% if question.score_obtained >= question.max_marks * 0.8 %}bg-success
+                            {% elif question.score_obtained >= question.max_marks * 0.5 %}bg-warning
+                            {% else %}bg-danger{% endif %}" 
+                            style="width: {{ (question.score_obtained / question.max_marks * 100) }}%">
+                        </div>
+                    </div>
+                    <small class="text-muted">Score: {{ "%.1f"|format(question.score_obtained / question.max_marks * 100) }}%</small>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center mt-4">
+            <button class="btn btn-success me-2" onclick="window.print()">
+                <i class="fas fa-print"></i> Print Results
+            </button>
+            <button class="btn btn-outline-primary me-2" id="downloadBtn">
+                <i class="fas fa-download"></i> Download as PDF
+            </button>
+            <a href="/upload-answers" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Grade Another Student
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('downloadBtn').addEventListener('click', function() {
+    // Simple PDF download implementation
+    const element = document.querySelector('.container');
+    const opt = {
+        margin: 1,
+        filename: 'grading_results_{{ results.student_id }}.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    
+    // You can integrate a proper PDF generation library here
+    alert('PDF download feature would be implemented with a proper PDF generation library');
+});
+</script>
+{% endblock %}

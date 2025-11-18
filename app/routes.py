@@ -1,22 +1,23 @@
-from flask import render_template
-from app import app
+from flask import Blueprint, render_template
 
-@app.route('/')
+main_bp = Blueprint('main', __name__)
+
+@main_bp.route('/')
 def home():
     return render_template('index.html', title="OmTechAI Limited")
 
-@app.route('/services')
+@main_bp.route('/services')
 def services():
     return render_template('services.html', title="Our Services")
 
-@app.route('/tools')
+@main_bp.route('/tools')
 def tools():
     return render_template('tools.html', title="Our Tools")
 
-@app.route('/projects')
+@main_bp.route('/projects')
 def projects():
     return render_template('projects.html', title="Projects & Innovations")
 
-@app.route('/contact')
+@main_bp.route('/contact')
 def contact():
     return render_template('contact.html', title="Contact Us")

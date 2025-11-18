@@ -1,4 +1,9 @@
-from app import app
+from app import create_app
+import os
 
-if __name__ == "__main__":
+app = create_app()
+
+if __name__ == '__main__':
+    # Create necessary directories
+    os.makedirs('instance/sessions', exist_ok=True)
     app.run(debug=True)

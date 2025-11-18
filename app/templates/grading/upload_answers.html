@@ -1,0 +1,757 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="upload-answers-container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+            <!-- Main Card -->
+            <div class="card upload-card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-file-upload fa-2x me-3"></i>
+                            <div>
+                                <h4 class="mb-1 fw-semibold">Upload Student Answers</h4>
+                                <p class="mb-0 opacity-85">Step 2: Grade individual student scripts</p>
+                            </div>
+                        </div>
+                        <span class="badge bg-white text-primary fs-6">Step 2 of 3</span>
+                    </div>
+                </div>
+                
+                <div class="card-body p-4 p-md-5">
+                    <!-- Success Alert -->
+                    <div class="alert alert-success border-0 rounded-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle fa-2x text-success me-3"></i>
+                            <div>
+                                <h6 class="fw-semibold mb-1 text-success">Question Paper Processed Successfully!</h6>
+                                <p class="mb-0 text-dark">
+                                    Found <strong>{{ questions_count }} questions</strong> 
+                                    (Total: <strong>{{ total_marks }} marks</strong>)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upload Form -->
+                    <form id="uploadForm" enctype="multipart/form-data" class="mt-4">
+                        <div class="row g-4">
+
+                            <!-- File Upload -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="answerFile" class="form-label fw-semibold">
+                                        <i class="fas fa-file-upload me-2 text-primary"></i>Answer Script
+                                    </label>
+                                    <div class="file-upload-area answer-upload" id="answerUploadArea">
+                                        <div class="upload-zone-content text-center">
+                                            <i class="fas fa-file-alt fa-2x text-primary mb-2"></i>
+                                            <h6 class="fw-semibold mb-1">Upload Answer Script</h6>
+                                            <p class="text-muted small mb-2">Click to select file</p>
+                                            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                                <i class="fas fa-paperclip me-1"></i>Choose File
+                                            </button>
+                                        </div>
+                                        <input type="file" class="d-none" id="answerFile" name="question_file" 
+                                               accept=".pdf,.jpg,.jpeg,.png,.txt,.docx" required>
+                                    </div>
+                                    <div class="form-text text-muted">
+                                        Supported: PDF, Images, TXT, DOCX • Max 16MB
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons mt-5 pt-4 border-top">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <a href="{{ url_for('grading.upload_questions') }}" class="btn btn-outline-secondary w-100 py-3">
+                                        <i class="fas fa-arrow-left me-2"></i>Back to Questions
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary w-100 py-3" id="submitBtn">
+                                        <i class="fas fa-check me-2"></i>Grade Answers
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Loading State -->
+                    <div id="loading" class="mt-4" style="display: none;">
+                        <div class="alert alert-info border-0 rounded-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-spinner fa-spin fa-2x me-3"></i>
+                                <div>
+                                    <h6 class="fw-semibold mb-1">AI is Grading Answers</h6>
+                                    <p class="mb-0">Processing student responses... This may take a few moments.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div id="results" class="mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Batch Summary Link -->
+            <div class="text-center mt-4">
+                <a href="{{ url_for('grading.batch_summary') }}" class="btn btn-outline-primary btn-lg px-4">
+                    <i class="fas fa-chart-bar me-2"></i>View Batch Summary
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Upload Answers Specific Styles */
+.upload-answers-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 2rem 1rem;
+}
+
+/* Card Styles */
+.upload-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: none;
+}
+
+.card-header.bg-primary {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-label {
+    color: #374151;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* File Upload Area */
+.answer-upload {
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 1.5rem;
+    background: #f9fafb;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.answer-upload:hover {
+    border-color: #2563eb;
+    background: #f0f7ff;
+    transform: translateY(-2px);
+}
+
+.answer-upload.dragover {
+    border-color: #2563eb;
+    background: #e0f2fe;
+    transform: scale(1.02);
+}
+
+.answer-upload.success {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.upload-zone-content i {
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.upload-zone-content h6 {
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.upload-zone-content p {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 12px;
+    border: none;
+    padding: 1.25rem;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    color: #065f46;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    color: #0369a1;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    color: #dc2626;
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    padding: 0.75rem 1.5rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.btn-outline-primary {
+    border: 2px solid #2563eb;
+    color: #2563eb;
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.btn-outline-secondary {
+    border: 2px solid #d1d5db;
+    color: #6b7280;
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+    color: #374151;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Results Styles */
+.results-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.results-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.results-header i {
+    font-size: 3rem;
+    color: #10b981;
+    margin-bottom: 1rem;
+}
+
+.results-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2563eb;
+    display: block;
+}
+
+.stat-label {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Progress Bar */
+.progress-container {
+    margin: 1.5rem 0;
+}
+
+.progress {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #34d399);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+#results .alert {
+    animation: fadeIn 0.5s ease;
+}
+
+#loading {
+    animation: slideIn 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .upload-answers-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    .action-buttons .btn {
+        padding: 0.75rem 1rem;
+    }
+    
+    .results-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .answer-upload {
+        padding: 1rem;
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .upload-card .card-header {
+        padding: 1.5rem !important;
+    }
+    
+    .card-header .d-flex {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .action-buttons .row {
+        flex-direction: column;
+    }
+    
+    .action-buttons .col-6 {
+        width: 100%;
+    }
+}
+
+/* Loading Animation */
+.btn-loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* File Preview */
+.file-preview {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.file-icon {
+    font-size: 1.5rem;
+    color: #2563eb;
+}
+
+.file-details h6 {
+    margin: 0;
+    color: #374151;
+}
+
+.file-details p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+class AnswerUploadManager {
+    constructor() {
+        this.currentFile = null;
+        this.init();
+    }
+
+    init() {
+        this.cacheElements();
+        this.bindEvents();
+        this.setupDragAndDrop();
+    }
+
+    cacheElements() {
+        this.uploadForm = document.getElementById('uploadForm');
+        this.submitBtn = document.getElementById('submitBtn');
+        this.loading = document.getElementById('loading');
+        this.results = document.getElementById('results');
+        this.answerFile = document.getElementById('answerFile');
+        this.uploadArea = document.getElementById('answerUploadArea');
+        this.studentId = document.getElementById('studentId');
+    }
+
+    bindEvents() {
+        this.uploadForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
+        this.answerFile.addEventListener('change', (e) => this.handleFileSelect(e));
+        
+        // Upload area click
+        this.uploadArea.addEventListener('click', () => {
+            this.answerFile.click();
+        });
+    }
+
+    setupDragAndDrop() {
+        const preventDefaults = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            this.uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            this.uploadArea.addEventListener(eventName, () => {
+                this.uploadArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            this.uploadArea.addEventListener(eventName, () => {
+                this.uploadArea.classList.remove('dragover');
+            }, false);
+        });
+
+        this.uploadArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                this.answerFile.files = files;
+                this.handleFileSelect({ target: { files: files } });
+            }
+        }, false);
+    }
+
+    handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (file) {
+            this.processFile(file);
+        }
+    }
+
+    processFile(file) {
+        if (!this.validateFile(file)) {
+            return;
+        }
+
+        this.currentFile = file;
+        this.updateUploadAreaForSuccess(file.name);
+        this.showMessage('Answer script selected successfully!', 'success');
+    }
+
+    validateFile(file) {
+        const maxSize = 16 * 1024 * 1024;
+        const allowedTypes = [
+            'image/jpeg', 'image/jpg', 'image/png', 
+            'application/pdf', 'text/plain', 
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        const allowedExtensions = /\.(pdf|jpg|jpeg|png|txt|docx)$/i;
+
+        if (file.size > maxSize) {
+            this.showMessage('File size exceeds 16MB limit. Please choose a smaller file.', 'error');
+            this.clearFileSelection();
+            return false;
+        }
+
+        if (!allowedTypes.includes(file.type) && !file.name.match(allowedExtensions)) {
+            this.showMessage('Invalid file type. Please select PDF, JPG, PNG, TXT, or DOCX files.', 'error');
+            this.clearFileSelection();
+            return false;
+        }
+
+        return true;
+    }
+
+    updateUploadAreaForSuccess(fileName) {
+        this.uploadArea.classList.add('success');
+        this.uploadArea.innerHTML = `
+            <div class="upload-zone-content text-center">
+                <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                <h6 class="fw-semibold mb-1 text-success">File Selected</h6>
+                <p class="text-muted small mb-2">${this.escapeHtml(fileName)}</p>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                    <i class="fas fa-sync me-1"></i>Change File
+                </button>
+            </div>
+            <input type="file" class="d-none" id="answerFile" name="question_file" 
+                   accept=".pdf,.jpg,.jpeg,.png,.txt,.docx" required>
+        `;
+        
+        // Re-bind events
+        this.answerFile = document.getElementById('answerFile');
+        this.answerFile.addEventListener('change', (e) => this.handleFileSelect(e));
+        
+        const changeBtn = this.uploadArea.querySelector('button');
+        changeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.answerFile.click();
+        });
+    }
+
+    async handleFormSubmit(event) {
+        event.preventDefault();
+        
+        if (!this.currentFile) {
+            this.showMessage('Please select an answer script first.', 'error');
+            return;
+        }
+
+        if (!this.studentId.value.trim()) {
+            this.showMessage('Please enter a student ID.', 'error');
+            this.studentId.focus();
+            return;
+        }
+
+        this.startProcessing();
+        
+        try {
+            const formData = new FormData(this.uploadForm);
+            const response = await fetch('{{ url_for("grading.upload_answers") }}', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                this.showResults(data.results);
+                this.uploadForm.reset();
+                this.clearFileSelection();
+            } else {
+                this.showMessage(data.error || 'An error occurred while grading.', 'error');
+            }
+        } catch (error) {
+            this.showMessage('Network error: ' + error.message, 'error');
+        } finally {
+            this.completeProcessing();
+        }
+    }
+
+    startProcessing() {
+        this.submitBtn.disabled = true;
+        this.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Grading...';
+        this.loading.style.display = 'block';
+        this.results.innerHTML = '';
+    }
+
+    completeProcessing() {
+        this.submitBtn.disabled = false;
+        this.submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Grade Answers';
+        this.loading.style.display = 'none';
+    }
+
+    showResults(results) {
+        this.results.innerHTML = `
+            <div class="results-card">
+                <div class="results-header">
+                    <i class="fas fa-trophy"></i>
+                    <h4 class="fw-bold text-success mb-2">Grading Complete!</h4>
+                </div>
+                
+                <div class="results-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">${results.student_id}</span>
+                        <span class="stat-label">Student ID</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">${results.total_score}/${results.max_score}</span>
+                        <span class="stat-label">Total Score</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">${results.percentage.toFixed(1)}%</span>
+                        <span class="stat-label">Percentage</span>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h6 class="fw-semibold mb-2">Overall Feedback:</h6>
+                    <p class="mb-0">${results.feedback_summary}</p>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="/grading/results/${results.student_id}" class="btn btn-success btn-lg px-4">
+                        <i class="fas fa-file-alt me-2"></i>View Detailed Results
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+
+    clearFileSelection() {
+        this.currentFile = null;
+        this.uploadArea.classList.remove('success');
+        this.uploadArea.innerHTML = `
+            <div class="upload-zone-content text-center">
+                <i class="fas fa-file-alt fa-2x text-primary mb-2"></i>
+                <h6 class="fw-semibold mb-1">Upload Answer Script</h6>
+                <p class="text-muted small mb-2">Click to select file</p>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                    <i class="fas fa-paperclip me-1"></i>Choose File
+                </button>
+            </div>
+            <input type="file" class="d-none" id="answerFile" name="question_file" 
+                   accept=".pdf,.jpg,.jpeg,.png,.txt,.docx" required>
+        `;
+        
+        // Re-bind events
+        this.answerFile = document.getElementById('answerFile');
+        this.answerFile.addEventListener('change', (e) => this.handleFileSelect(e));
+        
+        const chooseBtn = this.uploadArea.querySelector('button');
+        chooseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.answerFile.click();
+        });
+    }
+
+    showMessage(message, type) {
+        // Remove existing messages
+        const existingMessages = document.querySelectorAll('.upload-message');
+        existingMessages.forEach(msg => msg.remove());
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `upload-message alert alert-${type === 'error' ? 'danger' : 'success'} alert-dismissible fade show mt-3`;
+        messageDiv.innerHTML = `
+            <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'check-circle'} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        this.uploadForm.parentNode.insertBefore(messageDiv, this.uploadForm);
+        
+        if (type !== 'error') {
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 5000);
+        }
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    new AnswerUploadManager();
+});
+</script>
+{% endblock %}

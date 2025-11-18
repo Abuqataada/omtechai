@@ -1,0 +1,590 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+/* AI Exam Grader Dashboard Styles */
+.grading-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.hero-section .display-4 {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 1rem;
+}
+
+.hero-section .lead {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Feature Cards */
+.feature-card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.feature-card .card-body {
+    padding: 2rem;
+    text-align: center;
+}
+
+.feature-card i {
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover i {
+    transform: scale(1.1);
+}
+
+.feature-card.border-primary {
+    border-left: 4px solid #0d6efd !important;
+}
+
+.feature-card.border-success {
+    border-left: 4px solid #198754 !important;
+}
+
+.feature-card.border-info {
+    border-left: 4px solid #0dcaf0 !important;
+}
+
+/* Get Started Section */
+.get-started-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.get-started-card .card-header {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    border: none;
+    padding: 1.5rem;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.get-started-card .card-header h4 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.get-started-card .card-body {
+    padding: 2.5rem;
+}
+
+.get-started-btn {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+    transition: all 0.3s ease;
+    border: none;
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+}
+
+.get-started-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.6);
+}
+
+/* File Format Badges */
+.file-badges {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.file-badge {
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.file-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Features & How It Works Sections */
+.features-section, .how-it-works-section {
+    margin-top: 2rem;
+}
+
+.features-section .card, .how-it-works-section .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    height: 100%;
+}
+
+.features-section .card-header, .how-it-works-section .card-header {
+    border: none;
+    padding: 1.5rem;
+    border-radius: 15px 15px 0 0 !important;
+    font-weight: 600;
+}
+
+.features-section .card-header.bg-success {
+    background: linear-gradient(135deg, #198754 0%, #146c43 100%) !important;
+}
+
+.how-it-works-section .card-header.bg-info {
+    background: linear-gradient(135deg, #0dcaf0 0%, #0aa2c0 100%) !important;
+}
+
+.features-section .list-group-item {
+    border: none;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.features-section .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.features-section .list-group-item i {
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+}
+
+/* How It Works Steps */
+.step-item {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.3s ease;
+}
+
+.step-item:hover {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.step-item:last-child {
+    border-bottom: none;
+}
+
+.step-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 3px 10px rgba(13, 110, 253, 0.3);
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content strong {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.step-content br + * {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.feature-card, .get-started-card, .features-section .card, .how-it-works-section .card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.feature-card:nth-child(1) { animation-delay: 0.1s; }
+.feature-card:nth-child(2) { animation-delay: 0.2s; }
+.feature-card:nth-child(3) { animation-delay: 0.3s; }
+.get-started-card { animation-delay: 0.4s; }
+.features-section .card { animation-delay: 0.5s; }
+.how-it-works-section .card { animation-delay: 0.6s; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 1rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+    }
+    
+    .hero-section .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .feature-card .card-body {
+        padding: 1.5rem;
+    }
+    
+    .get-started-card .card-body {
+        padding: 1.5rem;
+    }
+    
+    .file-badges {
+        gap: 0.5rem;
+    }
+    
+    .file-badge {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .step-item {
+        padding: 1rem;
+    }
+    
+    .step-badge {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section .display-4 {
+        font-size: 2rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 1.1rem;
+    }
+    
+    .get-started-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+    }
+    
+    .file-badges {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .file-badge {
+        width: 200px;
+        text-align: center;
+    }
+}
+
+/* Hover Effects */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Custom Scrollbar for Webkit */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #0a58ca 0%, #084298 100%);
+}
+
+/* Loading Animation */
+.loading-dots {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.loading-dots div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #0d6efd;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.loading-dots div:nth-child(1) {
+    left: 8px;
+    animation: loading-dots1 0.6s infinite;
+}
+
+.loading-dots div:nth-child(2) {
+    left: 8px;
+    animation: loading-dots2 0.6s infinite;
+}
+
+.loading-dots div:nth-child(3) {
+    left: 32px;
+    animation: loading-dots2 0.6s infinite;
+}
+
+.loading-dots div:nth-child(4) {
+    left: 56px;
+    animation: loading-dots3 0.6s infinite;
+}
+
+@keyframes loading-dots1 {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+@keyframes loading-dots3 {
+    0% { transform: scale(1); }
+    100% { transform: scale(0); }
+}
+
+@keyframes loading-dots2 {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(24px, 0); }
+}
+</style>
+
+<div class="grading-dashboard">
+    <div class="hero-section">
+        <h1 class="display-4">
+            <i class="fas fa-robot"></i> AI Exam Grader
+        </h1>
+        <p class="lead">Intelligent automated grading system for teachers</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card border-primary">
+                <div class="card-body">
+                    <i class="fas fa-upload fa-3x text-primary"></i>
+                    <h5 class="card-title">Upload Questions</h5>
+                    <p class="card-text">Upload or snap pictures of your question paper. Supports PDF, images, and documents.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card border-success">
+                <div class="card-body">
+                    <i class="fas fa-file-upload fa-3x text-success"></i>
+                    <h5 class="card-title">Upload Answers</h5>
+                    <p class="card-text">Upload student answer scripts. AI will automatically grade and provide detailed feedback.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card border-info">
+                <div class="card-body">
+                    <i class="fas fa-chart-bar fa-3x text-info"></i>
+                    <h5 class="card-title">Analytics & Reports</h5>
+                    <p class="card-text">Get detailed analytics, class performance reports, and grading insights.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card get-started-card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-play-circle"></i> Get Started</h4>
+        </div>
+        <div class="card-body text-center">
+            <p class="card-text fs-5">Start by uploading your question paper. The AI will analyze it and prepare for grading student answers.</p>
+            <a href="{{ url_for('grading.upload_questions') }}" class="btn get-started-btn text-white">
+                <i class="fas fa-upload"></i> Upload Question Paper
+            </a>
+            
+            <div class="mt-4">
+                <h5>Supported File Formats:</h5>
+                <div class="file-badges">
+                    <span class="file-badge"><i class="fas fa-file-pdf"></i> PDF</span>
+                    <span class="file-badge"><i class="fas fa-image"></i> JPG/PNG</span>
+                    <span class="file-badge"><i class="fas fa-file-alt"></i> TXT</span>
+                    <span class="file-badge"><i class="fas fa-file-word"></i> DOCX</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6 features-section">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-bolt"></i> Features</h5>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i> Automatic MCQ and Essay grading
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i> Detailed feedback and explanations
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i> Batch processing of multiple students
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i> Performance analytics and reports
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i> Support for handwritten answers (OCR)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 how-it-works-section">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb"></i> How It Works</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="step-item d-flex">
+                        <div class="flex-shrink-0">
+                            <span class="step-badge">1</span>
+                        </div>
+                        <div class="flex-grow-1 ms-3 step-content">
+                            <strong>Upload Question Paper</strong>
+                            <br>Upload your exam questions in any supported format
+                        </div>
+                    </div>
+                    <div class="step-item d-flex">
+                        <div class="flex-shrink-0">
+                            <span class="step-badge">2</span>
+                        </div>
+                        <div class="flex-grow-1 ms-3 step-content">
+                            <strong>Upload Student Answers</strong>
+                            <br>Upload answer scripts one by one or in batch
+                        </div>
+                    </div>
+                    <div class="step-item d-flex">
+                        <div class="flex-shrink-0">
+                            <span class="step-badge">3</span>
+                        </div>
+                        <div class="flex-grow-1 ms-3 step-content">
+                            <strong>Get Results & Analytics</strong>
+                            <br>Receive detailed grading with feedback and class reports
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Add some interactive JavaScript for the dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effects to feature cards
+    const featureCards = document.querySelectorAll('.feature-card');
+    
+    featureCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // Add click animation to get started button
+    const getStartedBtn = document.querySelector('.get-started-btn');
+    if (getStartedBtn) {
+        getStartedBtn.addEventListener('click', function(e) {
+            // Add a small ripple effect
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+            `;
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    }
+    
+    // Add CSS for ripple effect
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+{% endblock %}
