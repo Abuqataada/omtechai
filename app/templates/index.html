@@ -55,54 +55,33 @@
   </div>
 </section>
 
-<section class="section reveal">
+<section class="section projects-strip reveal">
   <div class="wrap section-head">
     <div>
-      <span class="eyebrow">Core expertise</span>
-      <h2>The technical foundation behind everything we build.</h2>
+      <span class="eyebrow">Completed projects</span>
+      <h2>A rolling showcase of what the company has already built.</h2>
     </div>
-    <p>Our stack spans fullstack engineering, databases, UI/UX, API development, automation, and AI-enabled systems.</p>
+    <p>Swipe, scroll, or just watch the loop. These cards highlight the systems OmtechEI has delivered so far.</p>
   </div>
-  <div class="wrap card-grid three-up">
-    {% for item in core_expertise %}
-    <article class="service-card">
-      <h3>{{ item.title }}</h3>
-      <p>{{ item.body }}</p>
-    </article>
-    {% endfor %}
-  </div>
-</section>
 
-<section class="section section-alt reveal">
-  <div class="wrap section-head">
-    <div>
-      <span class="eyebrow">Featured solutions</span>
-      <h2>Products and platforms already shaped under OmtechEI Limited.</h2>
+  <div class="projects-marquee">
+    <div class="projects-track">
+      {% for project in project_stream %}
+      <article class="service-card project-card">
+        <div class="project-card-top">
+          <span class="project-index">0{{ loop.index }}</span>
+          <span class="project-dot"></span>
+        </div>
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.detail }}</p>
+        <div class="pill-row compact">
+          {% for tag in project.tags %}
+          <span>{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </article>
+      {% endfor %}
     </div>
-    <p>These represent the company’s practical work across education, fintech, automation, and AI.</p>
-  </div>
-  <div class="wrap card-grid three-up">
-    {% for product in products[:3] %}
-    <article class="service-card">
-      <h3>{{ product.name }}</h3>
-      <p>{{ product.summary }}</p>
-      <ul>
-        {% for highlight in product.highlights %}
-        <li>{{ highlight }}</li>
-        {% endfor %}
-      </ul>
-    </article>
-    {% endfor %}
-  </div>
-</section>
-
-<section class="section reveal">
-  <div class="wrap cta-panel">
-    <div>
-      <span class="eyebrow">Vision</span>
-      <h2>We’re building intelligent digital ecosystems that solve real problems across Africa and beyond.</h2>
-    </div>
-    <a class="btn btn-primary" href="/contact">Talk to us</a>
   </div>
 </section>
 {% endblock %}

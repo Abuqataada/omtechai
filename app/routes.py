@@ -147,6 +147,7 @@ SITE_DATA = {
     'services': SERVICES,
     'products': PRODUCTS,
     'projects': PROJECTS,
+    'project_stream': PROJECTS + PROJECTS,
     'process': PROCESS,
     'testimonials': TESTIMONIALS,
     'faqs': FAQS,
