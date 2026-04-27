@@ -17,6 +17,23 @@
   --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.24);
 }
 
+html[data-theme='light'] {
+  --bg: #f7fbff;
+  --bg-2: #eef5ff;
+  --panel: rgba(255, 255, 255, 0.82);
+  --surface: rgba(255, 255, 255, 0.92);
+  --surface-2: rgba(244, 249, 255, 0.98);
+  --text: #102033;
+  --muted: #5e718a;
+  --line: rgba(16, 32, 51, 0.08);
+  --accent: #107fb1;
+  --accent-2: #179f7f;
+  --accent-3: #4fca5c;
+  --glow: rgba(16, 127, 177, 0.16);
+  --shadow: 0 22px 70px rgba(36, 58, 84, 0.12);
+  --shadow-soft: 0 14px 36px rgba(36, 58, 84, 0.10);
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -61,6 +78,12 @@ img { max-width: 100%; display: block; }
   background: rgba(5, 11, 22, 0.64);
   backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .nav-shell {
@@ -140,6 +163,32 @@ img { max-width: 100%; display: block; }
   height: 2px;
   border-radius: 999px;
   background: var(--text);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.78rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+.theme-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 1.1rem;
+  font-size: 1rem;
 }
 
 .hero {
@@ -686,6 +735,10 @@ textarea {
 @media (max-width: 840px) {
   .menu-toggle { display: inline-flex; }
 
+  .theme-toggle {
+    padding: 0.72rem 0.9rem;
+  }
+
   .nav-links {
     display: none;
     width: 100%;
@@ -722,5 +775,67 @@ textarea {
     min-width: 280px;
     width: 280px;
     flex-basis: 280px;
+  }
+}
+
+@media (max-width: 560px) {
+  .wrap {
+    width: min(1240px, calc(100% - 1rem));
+  }
+
+  .nav-shell {
+    gap: 0.8rem;
+  }
+
+  .brand-mark {
+    width: 48px;
+    height: 48px;
+  }
+
+  .brand strong {
+    font-size: 0.95rem;
+  }
+
+  .brand small {
+    font-size: 0.78rem;
+  }
+
+  .hero {
+    padding-top: 1.5rem;
+  }
+
+  .hero-copy,
+  .hero-aside,
+  .service-card,
+  .process-card,
+  .quote-card,
+  .cta-panel,
+  .page-hero-inner {
+    padding: 1rem;
+  }
+
+  .hero-actions,
+  .pill-row {
+    gap: 0.55rem;
+  }
+
+  .btn,
+  .theme-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .project-card {
+    min-width: 260px;
+    width: 260px;
+    flex-basis: 260px;
+  }
+
+  .projects-track {
+    gap: 0.75rem;
+  }
+
+  .footer-grid {
+    padding: 1.1rem;
   }
 }

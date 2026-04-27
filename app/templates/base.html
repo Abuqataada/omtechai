@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }} | {{ company.name }}</title>
   <meta name="description" content="{{ company.description }}">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('omtechei-theme');
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      const theme = saved || (prefersLight ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -14,7 +22,13 @@
         <span class="brand-mark">O</span>
         <span><strong>{{ company.name }}</strong><small>{{ company.tagline }}</small></span>
       </a>
-      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">☼</span>
+          <span class="theme-label">Bright</span>
+        </button>
+        <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
       <nav class="nav-links">
         {% for item in nav_items %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %}
       </nav>
