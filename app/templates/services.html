@@ -1,102 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="hero" style="padding: 100px 20px;">
-  <div class="hero-content">
-    <h1 class="fade-in">Our Services</h1>
-    <p class="fade-in delay-1">Comprehensive technology solutions to drive your business forward</p>
+<section class="page-hero reveal">
+  <div class="wrap page-hero-inner">
+    <span class="eyebrow">Services</span>
+    <h1>From fullstack development to AI-assisted systems, we build what modern teams need.</h1>
+    <p class="lede">
+      Our services are structured around usable software delivery, long-term maintainability, and the
+      practical needs of education, finance, and business automation.
+    </p>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <h2 class="section-title">Development Services</h2>
-    <div class="services-grid">
-      <div class="service-card highlight">
-        <h3>Software Development</h3>
-        <p>Custom software solutions designed to streamline your business operations and improve efficiency.</p>
-        <div class="price">Starting at ₦1.5 million</div>
-        <ul>
-          <li>Custom requirements analysis</li>
-          <li>Agile development methodology</li>
-          <li>Quality assurance testing</li>
-          <li>Deployment and maintenance</li>
-        </ul>
-      </div>
-      
-      <div class="service-card highlight">
-        <h3>Professional Website Development</h3>
-        <p>Responsive, modern websites that create impactful online presence and drive conversions.</p>
-        <div class="price">Starting at ₦500k</div>
-        <ul>
-          <li>Responsive design</li>
-          <li>SEO optimization</li>
-          <li>Content management system</li>
-          <li>E-commerce functionality</li>
-        </ul>
-      </div>
-      
-      <div class="service-card highlight">
-        <h3>Desktop Applications</h3>
-        <p>Powerful desktop solutions for Windows, macOS, and Linux with native performance.</p>
-        <div class="price">Starting at ₦400k</div>
-        <ul>
-          <li>Cross-platform compatibility</li>
-          <li>Offline functionality</li>
-          <li>Database integration</li>
-          <li>User-friendly interfaces</li>
-        </ul>
-      </div>
-      
-      <div class="service-card highlight">
-        <h3>Custom Internal Tools</h3>
-        <p>Tailored applications to optimize internal processes and boost productivity.</p>
-        <div class="price">Starting at ₦2 million</div>
-        <ul>
-          <li>Workflow automation</li>
-          <li>Data visualization</li>
-          <li>Integration with existing systems</li>
-          <li>Scalable architecture</li>
-        </ul>
-      </div>
-    </div>
+<section class="section reveal">
+  <div class="wrap card-grid three-up">
+    {% for service in services %}
+    <article class="service-card large">
+      <h3>{{ service.title }}</h3>
+      <p>{{ service.body }}</p>
+    </article>
+    {% endfor %}
   </div>
 </section>
 
-<section class="section" style="background: var(--bg-light);">
-  <div class="container">
-    <h2 class="section-title">Programming Courses</h2>
-    <div class="services-grid">
-      <div class="service-card highlight">
-        <h3>Python Programming</h3>
-        <p>Comprehensive Python course covering fundamentals to advanced concepts.</p>
-        <div class="price">₦200k</div>
-        <ul>
-          <li>Python syntax and fundamentals</li>
-          <li>Data structures and algorithms</li>
-          <li>Web development with Django/Flask</li>
-          <li>Data analysis and visualization</li>
-          <li>Final project and certification</li>
-        </ul>
-      </div>
-      
-      <div class="service-card highlight">
-        <h3>Web Development</h3>
-        <p>Full-stack web development course covering HTML, CSS, and JavaScript.</p>
-        <div class="price">₦300k</div>
-        <ul>
-          <li>HTML5 and semantic markup</li>
-          <li>CSS3 and responsive design</li>
-          <li>JavaScript and ES6+ features</li>
-          <li>Frontend frameworks (React/Vue)</li>
-          <li>Backend development with Node.js</li>
-          <li>Portfolio project and certification</li>
-        </ul>
-      </div>
-    </div>
-    
-    <div style="text-align: center; margin-top: 50px;">
-      <a href="/contact" class="cta-btn">Get Started Today</a>
-    </div>
+<section class="section section-alt reveal">
+  <div class="wrap two-column">
+    <article class="service-card">
+      <span class="eyebrow">Technology stack</span>
+      <ul>
+        <li>Flask, FastAPI, Django, and Node.js</li>
+        <li>MySQL, PostgreSQL, Neon, and SQLAlchemy</li>
+        <li>Responsive UI/UX for mobile-first experiences</li>
+        <li>API integration, cloud deployment, and automation</li>
+      </ul>
+    </article>
+    <article class="service-card">
+      <span class="eyebrow">Working style</span>
+      <p>
+        We prefer modular architecture, readable code, and delivery systems that can grow with the
+        product. That makes our builds easier to maintain, extend, and deploy over time.
+      </p>
+    </article>
   </div>
 </section>
 {% endblock %}

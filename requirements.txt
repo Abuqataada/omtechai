@@ -1,14 +1,1 @@
-flask
-
-
-# Grading system dependencies
-openai
-PyPDF2
-pytesseract
-Pillow
-python-docx
-python-multipart
-werkzeug
-numpy
-scipy
-scikit-image
+﻿flask

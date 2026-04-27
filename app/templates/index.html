@@ -1,30 +1,102 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="hero">
-  <div class="hero-content">
-    <h1 class="fade-in">Welcome to OmTechAI Limited</h1>
-    <p class="fade-in delay-1">Innovating the Future with Smart Software & AI Solutions.</p>
-    <a href="/services" class="cta-btn fade-in delay-2">Explore Our Services</a>
+  <div class="wrap hero-grid">
+    <div class="panel hero-copy reveal">
+      <span class="eyebrow">Technology-driven software company</span>
+      <h1>Building intelligent systems for education, finance, and automation.</h1>
+      <p class="lede">
+        OmtechEI Limited transforms ideas into scalable digital products using modern web technologies,
+        cloud infrastructure, and AI-powered enhancements. We focus on solutions that are secure,
+        maintainable, and genuinely useful in the real world.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/contact">Start a project</a>
+        <a class="btn btn-secondary" href="/projects">View solutions</a>
+      </div>
+      <div class="stat-grid">
+        {% for stat in hero_stats %}
+        <article class="stat-card">
+          <strong>{{ stat.value }}</strong>
+          <span>{{ stat.label }}</span>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+
+    <aside class="panel hero-aside reveal">
+      <div class="logo-lockup">
+        <img src="{{ url_for('static', filename='images/omtechai_logo.png') }}" alt="OmtechEI Limited logo">
+      </div>
+      <div class="highlight-card">
+        <span class="chip">Core expertise</span>
+        <h2>Fullstack, databases, APIs, automation, and education technology.</h2>
+        <p>
+          We design products with modular architecture, strong usability, and long-term scalability in mind.
+        </p>
+      </div>
+      <div class="mini-grid">
+        <div class="mini-card">
+          <h3>Scalable</h3>
+          <p>Built for startups and institutions</p>
+        </div>
+        <div class="mini-card">
+          <h3>Intelligent</h3>
+          <p>AI-assisted where it adds value</p>
+        </div>
+      </div>
+    </aside>
   </div>
 </section>
 
-<section class="section" style="background: var(--bg-light);">
-  <div class="container">
-    <h2 class="section-title">Why Choose OmTechAI?</h2>
-    <div class="services-grid">
-      <div class="service-card highlight">
-        <h3>Expert Development</h3>
-        <p>Our team of experienced developers creates robust, scalable solutions tailored to your specific business needs.</p>
-      </div>
-      <div class="service-card highlight">
-        <h3>Cutting-Edge Technology</h3>
-        <p>We leverage the latest technologies including AI, machine learning, and cloud computing to deliver innovative solutions.</p>
-      </div>
-      <div class="service-card highlight">
-        <h3>Dedicated Support</h3>
-        <p>We provide ongoing support and maintenance to ensure your systems run smoothly and efficiently.</p>
-      </div>
+<section class="section reveal">
+  <div class="wrap section-head">
+    <div>
+      <span class="eyebrow">Core expertise</span>
+      <h2>The technical foundation behind everything we build.</h2>
     </div>
+    <p>Our stack spans fullstack engineering, databases, UI/UX, API development, automation, and AI-enabled systems.</p>
+  </div>
+  <div class="wrap card-grid three-up">
+    {% for item in core_expertise %}
+    <article class="service-card">
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.body }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section-alt reveal">
+  <div class="wrap section-head">
+    <div>
+      <span class="eyebrow">Featured solutions</span>
+      <h2>Products and platforms already shaped under OmtechEI Limited.</h2>
+    </div>
+    <p>These represent the company’s practical work across education, fintech, automation, and AI.</p>
+  </div>
+  <div class="wrap card-grid three-up">
+    {% for product in products[:3] %}
+    <article class="service-card">
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.summary }}</p>
+      <ul>
+        {% for highlight in product.highlights %}
+        <li>{{ highlight }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="wrap cta-panel">
+    <div>
+      <span class="eyebrow">Vision</span>
+      <h2>We’re building intelligent digital ecosystems that solve real problems across Africa and beyond.</h2>
+    </div>
+    <a class="btn btn-primary" href="/contact">Talk to us</a>
   </div>
 </section>
 {% endblock %}
