@@ -187,7 +187,7 @@ def api_contact():
     if not name or not email or not message or not service:
         return jsonify({'error': 'Name, email, service, and message are required.'}), 400
     payload = {'name': name, 'email': email, 'company': company, 'service': service, 'message': message, 'created_at': datetime.utcnow().isoformat(timespec='seconds') + 'Z'}
-    leads_path = Path(current_app.instance_path) / 'leads.jsonl'
+    leads_path = Path(current_app.config.get('LEADS_PATH', '/tmp/leads.jsonl'))
     leads_path.parent.mkdir(parents=True, exist_ok=True)
     with leads_path.open('a', encoding='utf-8') as handle:
         handle.write(json.dumps(payload) + '\n')
